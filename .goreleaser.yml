@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema-pro.json
+version: 2
+variables:
+  description: Exports the expiration time of your domains in the Prometheus format.
+
+includes:
+  - from_url:
+      url: https://raw.githubusercontent.com/xMlex/goreleaserfiles/main/build.yml
+  - from_url:
+      url: https://raw.githubusercontent.com/xMlex/goreleaserfiles/main/release.yml
+  - from_url:
+      url: https://raw.githubusercontent.com/xMlex/goreleaserfiles/main/package.yml
+  - from_url:
+      url: https://raw.githubusercontent.com/xMlex/goreleaserfiles/main/docker_v2.yml
+  - from_url:
+      url: https://raw.githubusercontent.com/xMlex/goreleaserfiles/main/cosign_checksum.yml
+  - from_url:
+      url: https://raw.githubusercontent.com/xMlex/goreleaserfiles/main/cosign_docker.yml
+  - from_url:
+      url: https://raw.githubusercontent.com/xMlex/goreleaserfiles/main/sbom.yml
+
+gemfury:
+  - account: xMlex

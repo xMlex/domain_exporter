@@ -1,0 +1,39 @@
+groups:
+- name: domain
+  rules:
+  - alert: DomainExpiringLessThen30Days
+    expr: >
+      (
+        min_over_time(domain_expiry_days[1h]) > 5
+        and
+        max_over_time(domain_expiry_days[1h]) < 30
+      )
+      unless
+      absent_over_time(domain_expiry_days[1h])
+    for: 1h
+    labels:
+      severity: warning
+    annotations:
+      description: 'Domain {{ $labels.domain }} will expire in less than 30 days'
+      summary: '{{ $labels.domain }}: domain is expiring'
+
+  - alert: DomainExpiringLessThen5Days
+    expr: >
+      max_over_time(domain_expiry_days[1h]) <= 5
+      unless
+      absent_over_time(domain_expiry_days[1h])
+    for: 1h
+    labels:
+      severity: page
+    annotations:
+      description: 'Domain {{ $labels.domain }} will expire in less than 5 days'
+      summary: '{{ $labels.domain }}: domain is expiring'
+
+  - alert: DomainProbeFailure
+    expr: domain_probe_success == 0
+    for: 1h
+    labels:
+      severity: warning
+    annotations:
+      description: 'Domain {{ $labels.domain }} is not valid. Cannot probe'
+      summary: '{{ $labels.domain }}: cannot probe'
