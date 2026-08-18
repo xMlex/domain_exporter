@@ -1,0 +1,39 @@
+# /etc/systemd/system/exporter_domain.service
+[Unit]
+Description=Domain exporter
+Documentation=https://github.com/xMlex/domain_exporter
+After=network.target
+
+[Service]
+User=nobody
+Group=nogroup
+DynamicUser=yes
+Type=simple
+ExecStart=/usr/local/bin/domain_exporter
+Restart=always
+RestartSec=5
+
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE CAP_NET_RAW
+AmbientCapabilities=CAP_NET_BIND_SERVICE CAP_NET_RAW
+
+# Limits
+MemoryHigh=64M
+MemoryMax=128M
+Environment=GOMAXPROCS=2
+
+# Безопасность
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+ReadWritePaths=/tmp
+WorkingDirectory=/tmp
+
+SyslogIdentifier=exporter_domain
+
+[Install]
+WantedBy=multi-user.target
